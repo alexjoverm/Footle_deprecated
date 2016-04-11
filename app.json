@@ -1,0 +1,9 @@
+{
+  "name": "Coofu",
+  "description": "App for cooking lovers",
+  "repository": "https://github.com/alexjoverm/Coofu.git",
+  "keywords": ["cooking", "fun", "food"],
+  "addons" : [
+  	"mongohq"
+  ]
+}
