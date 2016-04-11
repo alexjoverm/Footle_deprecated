@@ -1,10 +1,10 @@
-var path = require("path");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var InlineEnviromentVariablesPlugin = require('inline-environment-variables-webpack-plugin');
-var webpack = require("webpack");
+var webpack = require('webpack');
 
-var assetsPath = path.join(__dirname, "..", "public", "assets");
-var publicPath = "/assets/";
+var assetsPath = path.join(__dirname, '..', 'public', 'assets');
+var publicPath = '/assets/';
 
 var commonLoaders = [
   {
@@ -17,23 +17,23 @@ var commonLoaders = [
     // Reason why we put this here instead of babelrc
     // https://github.com/gaearon/react-transform-hmr/issues/5#issuecomment-142313637
     query: {
-      "presets": ["es2015", "react", "stage-0"],
-      "plugins": [
-        "transform-react-remove-prop-types",
-        "transform-react-constant-elements",
-        "transform-react-inline-elements"
+      presets: ['es2015', 'react', 'stage-0'],
+      plugins: [
+        'transform-react-remove-prop-types',
+        'transform-react-constant-elements',
+        'transform-react-inline-elements'
       ]
     },
     include: path.join(__dirname, '..', 'app'),
     exclude: path.join(__dirname, '/node_modules/')
   },
-  { test: /\.json$/, loader: "json-loader" },
+  { test: /\.json$/, loader: 'json-loader' },
   {
     test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
     loader: 'url',
     query: {
-        name: '[hash].[ext]',
-        limit: 10000,
+      name: '[hash].[ext]',
+      limit: 10000,
     }
   },
   { test: /\.css$/,
@@ -41,7 +41,7 @@ var commonLoaders = [
   }
 ];
 
-var postCSSConfig = function() {
+var postCSSConfig = function () {
   return [
     require('postcss-import')(),
     // Note: you must set postcss-mixins before simple-vars and nested
@@ -64,37 +64,37 @@ var postCSSConfig = function() {
 module.exports = [
   {
     // The configuration for the client
-    name: "browser",
+    name: 'browser',
     /* The entry point of the bundle
      * Entry points for multi page app could be more complex
      * A good example of entry points would be:
      * entry: {
-     *   pageA: "./pageA",
-     *   pageB: "./pageB",
-     *   pageC: "./pageC",
-     *   adminPageA: "./adminPageA",
-     *   adminPageB: "./adminPageB",
-     *   adminPageC: "./adminPageC"
+     *   pageA: './pageA',
+     *   pageB: './pageB',
+     *   pageC: './pageC',
+     *   adminPageA: './adminPageA',
+     *   adminPageB: './adminPageB',
+     *   adminPageC: './adminPageC'
      * }
      *
      * We can then proceed to optimize what are the common chunks
      * plugins: [
-     *  new CommonsChunkPlugin("admin-commons.js", ["adminPageA", "adminPageB"]),
-     *  new CommonsChunkPlugin("common.js", ["pageA", "pageB", "admin-commons.js"], 2),
-     *  new CommonsChunkPlugin("c-commons.js", ["pageC", "adminPageC"]);
+     *  new CommonsChunkPlugin('admin-commons.js', ['adminPageA', 'adminPageB']),
+     *  new CommonsChunkPlugin('common.js', ['pageA', 'pageB', 'admin-commons.js'], 2),
+     *  new CommonsChunkPlugin('c-commons.js', ['pageC', 'adminPageC']);
      * ]
      */
     // A SourceMap is emitted.
-    devtool: "source-map",
-    context: path.join(__dirname, "..", "app"),
+    devtool: 'source-map',
+    context: path.join(__dirname, '..', 'app'),
     entry: {
-      app: "./client"
+      app: './client'
     },
     output: {
       // The output directory as absolute path
       path: assetsPath,
       // The filename of the entry chunk as relative path inside the output.path directory
-      filename: "[name].js",
+      filename: '[name].js',
       // The output path from the view of the Javascript
       publicPath: publicPath
 
@@ -106,40 +106,40 @@ module.exports = [
     resolve: {
       extensions: ['', '.js', '.jsx', '.css'],
       modulesDirectories: [
-        "app", "node_modules"
+        'app', 'node_modules'
       ]
     },
     plugins: [
-        // extract inline css from modules into separate files
-        new ExtractTextPlugin("styles/main.css"),
-        new webpack.optimize.UglifyJsPlugin({
-          compressor: {
-            warnings: false
-          }
-        }),
-        new webpack.DefinePlugin({
-          __DEVCLIENT__: false,
-          __DEVSERVER__: false
-        }),
-        new InlineEnviromentVariablesPlugin({ NODE_ENV: 'production' })
+      // extract inline css from modules into separate files
+      new ExtractTextPlugin('styles/main.css'),
+      new webpack.optimize.UglifyJsPlugin({
+        compressor: {
+          warnings: false
+        }
+      }),
+      new webpack.DefinePlugin({
+        __DEVCLIENT__: false,
+        __DEVSERVER__: false
+      }),
+      new InlineEnviromentVariablesPlugin({ NODE_ENV: 'production' })
     ],
     postcss: postCSSConfig
   }, {
     // The configuration for the server-side rendering
-    name: "server-side rendering",
-    context: path.join(__dirname, "..", "app"),
+    name: 'server-side rendering',
+    context: path.join(__dirname, '..', 'app'),
     entry: {
-      server: "./server"
+      server: './server'
     },
-    target: "node",
+    target: 'node',
     output: {
       // The output directory as absolute path
       path: assetsPath,
       // The filename of the entry chunk as relative path inside the output.path directory
-      filename: "server.js",
+      filename: 'server.js',
       // The output path from the view of the Javascript
       publicPath: publicPath,
-      libraryTarget: "commonjs2"
+      libraryTarget: 'commonjs2'
     },
     module: {
       loaders: commonLoaders
@@ -147,25 +147,25 @@ module.exports = [
     resolve: {
       extensions: ['', '.js', '.jsx', '.css'],
       modulesDirectories: [
-        "app", "node_modules"
+        'app', 'node_modules'
       ]
     },
     plugins: [
-        // Order the modules and chunks by occurrence.
-        // This saves space, because often referenced modules
-        // and chunks get smaller ids.
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new ExtractTextPlugin("styles/main.css"),
-        new webpack.optimize.UglifyJsPlugin({
-          compressor: {
-            warnings: false
-          }
-        }),
-        new webpack.DefinePlugin({
-          __DEVCLIENT__: false,
-          __DEVSERVER__: false
-        }),
-        new InlineEnviromentVariablesPlugin({ NODE_ENV: 'production' })
+      // Order the modules and chunks by occurrence.
+      // This saves space, because often referenced modules
+      // and chunks get smaller ids.
+      new webpack.optimize.OccurenceOrderPlugin(),
+      new ExtractTextPlugin('styles/main.css'),
+      new webpack.optimize.UglifyJsPlugin({
+        compressor: {
+          warnings: false
+        }
+      }),
+      new webpack.DefinePlugin({
+        __DEVCLIENT__: false,
+        __DEVSERVER__: false
+      }),
+      new InlineEnviromentVariablesPlugin({ NODE_ENV: 'production' })
     ],
     postcss: postCSSConfig
   }
