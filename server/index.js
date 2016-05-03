@@ -1,52 +1,37 @@
-var express  = require('express');
-var fs       = require('fs');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var secrets  = require('./config/secrets');
-var webpack  = require('webpack');
-var app      = express();
+import express          from 'express';
+import webpack          from 'webpack';
+import dotenv           from 'dotenv';
+import database         from './config/database';
+import passportConfig   from './config/passport';
+import expressConfig    from './config/express';
+import routesConfig     from './config/routes';
+import webpackDevConfig from 'webpack/webpack.config.dev';
 
-// Find the appropriate database to connect to, default to localhost if not found.
-var connect = function() {
-  mongoose.connect(secrets.db, function(err, res) {
-    if(err) {
-      console.log('Error connecting to: ' + secrets.db + '. ' + err);
-    }else {
-      console.log('Succeeded connected to: ' + secrets.db);
-    }
-  });
-};
-connect();
+dotenv.config(); // Load .env file (must be in the root directory)
+const app = express();
 
-mongoose.connection.on('error', console.log);
-mongoose.connection.on('disconnected', connect);
+/** Setup database */
+database();
 
-// Bootstrap models
-fs.readdirSync(__dirname + '/models').forEach(function(file) {
-  if(~file.indexOf('.js')) require(__dirname + '/models/' + file);
-});
+/** @todo  CHECK! */
+passportConfig();
 
-var isDev = process.env.NODE_ENV === 'development';
-
-if (isDev) {
-  var config   = require('../webpack/webpack.config.dev-client.js');
-  var compiler = webpack(config);
+/** Setup Webpack */
+if (process.env.NODE_ENV === 'development') {
+  const compiler = webpack(webpackDevConfig);
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: config.output.publicPath
+    publicPath: webpackDevConfig.output.publicPath
   }));
 
   app.use(require('webpack-hot-middleware')(compiler));
 }
 
-
-// Bootstrap passport config
-require('./config/passport')(app, passport);
-
-// Bootstrap application settings
-require('./config/express')(app, passport);
-
-// Bootstrap routes
-require('./config/routes')(app, passport);
-
-app.listen(app.get('port'));
+/*
+ * Bootstrap application settings
+ */
+expressConfig(app);
+routesConfig(app);
+app.listen(process.env.PORT, () => {
+  console.log(`The server is running at http://localhost:${process.env.PORT}/`);
+});

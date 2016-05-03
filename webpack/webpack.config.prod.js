@@ -1,19 +1,19 @@
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var InlineEnviromentVariablesPlugin = require('inline-environment-variables-webpack-plugin');
-var webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const InlineEnviromentVariablesPlugin = require('inline-environment-variables-webpack-plugin');
+const webpack = require('webpack');
 
-var assetsPath = path.join(__dirname, '..', 'public', 'assets');
-var publicPath = '/assets/';
+const assetsPath = path.join(__dirname, '..', 'public', 'assets');
+const publicPath = '/assets/';
 
-var commonLoaders = [
+const commonLoaders = [
   {
     /*
      * TC39 categorises proposals for babel in 4 stages
      * Read more http://babeljs.io/docs/usage/experimental/
      */
     test: /\.js$|\.jsx$/,
-    loader: 'babel',
+    loader: 'babel-loader',
     // Reason why we put this here instead of babelrc
     // https://github.com/gaearon/react-transform-hmr/issues/5#issuecomment-142313637
     query: {
@@ -25,7 +25,7 @@ var commonLoaders = [
       ]
     },
     include: path.join(__dirname, '..', 'app'),
-    exclude: path.join(__dirname, '/node_modules/')
+    exclude: path.join(__dirname, '..', 'node_modules')
   },
   { test: /\.json$/, loader: 'json-loader' },
   {
@@ -41,8 +41,8 @@ var commonLoaders = [
   }
 ];
 
-var postCSSConfig = function () {
-  return [
+const postCSSConfig = () => {
+  [
     require('postcss-import')(),
     // Note: you must set postcss-mixins before simple-vars and nested
     require('postcss-mixins')(),
@@ -69,19 +69,19 @@ module.exports = [
      * Entry points for multi page app could be more complex
      * A good example of entry points would be:
      * entry: {
-     *   pageA: './pageA',
-     *   pageB: './pageB',
-     *   pageC: './pageC',
-     *   adminPageA: './adminPageA',
-     *   adminPageB: './adminPageB',
-     *   adminPageC: './adminPageC'
+     *   pageA: "./pageA",
+     *   pageB: "./pageB",
+     *   pageC: "./pageC",
+     *   adminPageA: "./adminPageA",
+     *   adminPageB: "./adminPageB",
+     *   adminPageC: "./adminPageC"
      * }
      *
      * We can then proceed to optimize what are the common chunks
      * plugins: [
-     *  new CommonsChunkPlugin('admin-commons.js', ['adminPageA', 'adminPageB']),
-     *  new CommonsChunkPlugin('common.js', ['pageA', 'pageB', 'admin-commons.js'], 2),
-     *  new CommonsChunkPlugin('c-commons.js', ['pageC', 'adminPageC']);
+     *  new CommonsChunkPlugin("admin-commons.js", ["adminPageA", "adminPageB"]),
+     *  new CommonsChunkPlugin("common.js", ["pageA", "pageB", "admin-commons.js"], 2),
+     *  new CommonsChunkPlugin("c-commons.js", ["pageC", "adminPageC"]);
      * ]
      */
     // A SourceMap is emitted.
@@ -106,11 +106,11 @@ module.exports = [
     resolve: {
       extensions: ['', '.js', '.jsx', '.css'],
       modulesDirectories: [
-        'app', 'node_modules'
+        'app', 'node_modules', 'server'
       ]
     },
     plugins: [
-      // extract inline css from modules into separate files
+        // extract inline css from modules into separate files
       new ExtractTextPlugin('styles/main.css'),
       new webpack.optimize.UglifyJsPlugin({
         compressor: {
@@ -151,9 +151,9 @@ module.exports = [
       ]
     },
     plugins: [
-      // Order the modules and chunks by occurrence.
-      // This saves space, because often referenced modules
-      // and chunks get smaller ids.
+        // Order the modules and chunks by occurrence.
+        // This saves space, because often referenced modules
+        // and chunks get smaller ids.
       new webpack.optimize.OccurenceOrderPlugin(),
       new ExtractTextPlugin('styles/main.css'),
       new webpack.optimize.UglifyJsPlugin({
