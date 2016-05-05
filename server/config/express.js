@@ -1,4 +1,7 @@
 import express        from 'express';
+import mongoose       from 'mongoose';
+import morgan         from 'morgan';
+import errorHandler   from 'errorhandler';
 import passport       from 'passport';
 import session        from 'express-session';
 import bodyParser     from 'body-parser';
@@ -6,7 +9,9 @@ import path           from 'path';
 import flash          from 'express-flash';
 import methodOverride from 'method-override';
 import connectMongo   from 'connect-mongo';
-import mongoose       from 'mongoose';
+import compression    from 'compression';
+import cookieParser   from 'cookie-parser';
+import appRootPath    from 'app-root-path';
 
 export default (app) => {
   app.set('port', (process.env.PORT || 3000));
@@ -22,14 +27,14 @@ export default (app) => {
 
   // Request Related stuff
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: true })); // To parse application/x-www-form-urlencoded
   app.use(methodOverride());
 
   app.use(cookieParser());
-  app.use(express.static(path.join(__dirname, '../..', 'public')));
+  app.use(express.static(path.join(appRootPath, 'public')));
 
   // Session
-  const mongoStore = connectMongo(session);
+  const MongoStore = connectMongo(session);
   const sess = {
     resave: true,
     saveUninitialized: false,
@@ -42,7 +47,7 @@ export default (app) => {
       httpOnly: true,
       secure: false,
     },
-    store: new mongoStore({ mongoose_connection: mongoose.connection })
+    store: new MongoStore({ mongoose_connection: mongoose.connection })
   };
 
   console.log('--------------------------');
@@ -57,8 +62,13 @@ export default (app) => {
     console.log('===> 🚦  Note: In order for authentication to work in production');
     console.log('===>           you will need a secure HTTPS connection');
     sess.cookie.secure = true; // Serve secure cookies
-    app.use(favicon(path.join('../..', 'public', 'favicon.ico')));
+    // app.use(favicon(path.join(appRootPath, 'public', 'favicon.ico')));
+    app.use(morgan('dev'));
+  } else {
+    app.use(morgan('dev'));
+    app.use(errorHandler());
   }
+
   console.log('--------------------------');
 
   app.use(session(sess));

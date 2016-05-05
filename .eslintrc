@@ -20,6 +20,10 @@
         "react/prop-types": 0,
         "react/jsx-indent-props" : 0,
         "react/jsx-closing-bracket-location" : 0,
+        "no-underscore-dangle": 1,
+        "consistent-return": 1,
+        "global-require": 1,
+        "import/no-unresolved": 1,
         "no-multi-spaces": [0, {
             "exceptions": {
                 "VariableDeclarator": true
@@ -27,7 +31,8 @@
         }]
     },
     "plugins": [
-        "react"
+        "react",
+        "import"
       ],
      "globals": {
         "__DEVSERVER__": true,

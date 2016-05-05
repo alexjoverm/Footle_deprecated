@@ -1,11 +1,10 @@
 import express from 'express';
+import articles from './articles';
 
-const router = express.Router();
+const router = express.Router(); // eslint-disable-line new-cap
 
-/** Route: /api/ */
-router.get('/', (req, res, next) => {
-  // can use async/await to load data before
-  res.render('path/to/view', { title: 'Express' });
-});
+// Add API routes here
+// Prefix: /api
+router.use('/articles', articles);
 
 export default router;

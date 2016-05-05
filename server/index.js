@@ -1,8 +1,7 @@
 import express          from 'express';
 import webpack          from 'webpack';
 import dotenv           from 'dotenv';
-import database         from './config/database';
-import passportConfig   from './config/passport';
+import databaseConfig   from './config/database';
 import expressConfig    from './config/express';
 import routesConfig     from './config/routes';
 import webpackDevConfig from 'webpack/webpack.config.dev';
@@ -11,10 +10,10 @@ dotenv.config(); // Load .env file (must be in the root directory)
 const app = express();
 
 /** Setup database */
-database();
+databaseConfig();
 
 /** @todo  CHECK! */
-passportConfig();
+// passportConfig();
 
 /** Setup Webpack */
 if (process.env.NODE_ENV === 'development') {
