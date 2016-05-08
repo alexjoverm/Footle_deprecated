@@ -14,13 +14,12 @@ import cookieParser   from 'cookie-parser';
 import appRootPath    from 'app-root-path';
 
 export default (app) => {
-  app.set('port', (process.env.PORT || 3000));
+  app.set('port', process.env.PORT);
 
   // X-Powered-By header has no functional value.
   // Keeping it makes it easier for an attacker to build the site's profile
   // It can be removed safely
   app.disable('x-powered-by');
-
   // Views
   app.set('view engine', 'ejs');
   app.use(compression()); // Compress using gzip to improve performance
@@ -29,10 +28,8 @@ export default (app) => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true })); // To parse application/x-www-form-urlencoded
   app.use(methodOverride());
-
   app.use(cookieParser());
-  app.use(express.static(path.join(appRootPath, 'public')));
-
+  app.use(express.static(path.join(appRootPath.path, 'public')));
   // Session
   const MongoStore = connectMongo(session);
   const sess = {
@@ -47,17 +44,22 @@ export default (app) => {
       httpOnly: true,
       secure: false,
     },
-    store: new MongoStore({ mongoose_connection: mongoose.connection })
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   };
+
+
+  app.use(session(sess));
+
+  // app.use(passport.initialize());
+  // app.use(passport.session());
+
+  app.use(flash());
 
   console.log('--------------------------');
   console.log('===> 😊  Starting Server . . .');
   console.log(`===>  Environment: ${process.env.NODE_ENV}`);
   console.log(`===>  Listening on port: ${process.env.PORT}`);
 
-  /**
-   * Important to keep this in mind
-   */
   if (process.env.NODE_ENV === 'production') {
     console.log('===> 🚦  Note: In order for authentication to work in production');
     console.log('===>           you will need a secure HTTPS connection');
@@ -68,13 +70,7 @@ export default (app) => {
     app.use(morgan('dev'));
     app.use(errorHandler());
   }
-
   console.log('--------------------------');
 
-  app.use(session(sess));
 
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  app.use(flash());
 };
