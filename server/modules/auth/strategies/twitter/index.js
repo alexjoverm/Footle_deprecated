@@ -1,20 +1,21 @@
-'use strict';
+import express from 'express';
+import passport from 'passport';
+import { setTokenCookie } from '../../middleware/auth.middleware';
 
-var express = require('express');
-var passport = require('passport');
-var auth = require('../auth.service');
+const router = express.Router();
 
-var router = express.Router();
-
+/**
+ * Authenticate on twitter
+ * @route /auth/twitter
+ */
 router
   .get('/', passport.authenticate('twitter', {
     failureRedirect: '/signup',
     session: false
   }))
-
   .get('/callback', passport.authenticate('twitter', {
     failureRedirect: '/signup',
     session: false
-  }), auth.setTokenCookie);
+  }), setTokenCookie);
 
-module.exports = router;
+export default router;

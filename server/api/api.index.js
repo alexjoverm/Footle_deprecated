@@ -1,7 +1,7 @@
 import express from 'express';
 import articles from './articles';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = express.Router();
 
 // Add API routes here
 // Prefix: /api

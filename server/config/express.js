@@ -29,7 +29,9 @@ export default (app) => {
   app.use(bodyParser.urlencoded({ extended: true })); // To parse application/x-www-form-urlencoded
   app.use(methodOverride());
   app.use(cookieParser());
-  app.use(express.static(path.join(appRootPath.path, 'public')));
+  app.use(passport.initialize());
+
+
   // Session
   const MongoStore = connectMongo(session);
   const sess = {
@@ -47,13 +49,10 @@ export default (app) => {
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   };
 
-
   app.use(session(sess));
-
-  // app.use(passport.initialize());
-  // app.use(passport.session());
-
   app.use(flash());
+
+  app.use(express.static(path.join(appRootPath.path, 'public')));
 
   console.log('--------------------------');
   console.log('===> 😊  Starting Server . . .');
@@ -71,6 +70,4 @@ export default (app) => {
     app.use(errorHandler());
   }
   console.log('--------------------------');
-
-
 };

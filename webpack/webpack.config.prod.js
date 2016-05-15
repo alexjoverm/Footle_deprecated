@@ -105,8 +105,11 @@ module.exports = [
     },
     resolve: {
       extensions: ['', '.js', '.jsx', '.css'],
+      root: [
+        path.join(__dirname, '..', 'server')
+      ],
       modulesDirectories: [
-        'app', 'node_modules', 'server'
+        'node_modules'
       ]
     },
     plugins: [

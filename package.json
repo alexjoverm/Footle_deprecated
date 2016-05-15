@@ -6,14 +6,15 @@
   "main": "index.js",
   "scripts": {
     "babel": "babel --presets es2015,stage-0 --ignore node_modules,public",
-    "babel-node": "babel-node --presets es2015,stage-0 --ignore node_modules,public",
+    "babel-node": "babel-node --plugins babel-root-import --presets es2015,stage-0 --ignore node_modules,public",
     "lint": "eslint",
     "clean": "rimraf public",
     "start": "cross-env NODE_ENV=production node compiled/index.js",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build:dev": "cross-env NODE_ENV=development webpack --colors --config ./webpack/webpack.config.dev.js",
     "build:prod": "cross-env NODE_ENV=production webpack --colors --config ./webpack/webpack.config.prod.js",
-    "build": "npm run clean && npm run build:prod",
+    "build:node": "cross-env NODE_ENV=production npm run babel -- ./server -d ./compiled",
+    "build": "npm run clean && npm run build:prod && npm run build:node",
     "test": "cross-env NODE_ENV=test karma start",
     "test:watch": "cross-env NODE_ENV=test npm test -- --watch --no-single-run",
     "postinstall": "npm run build"
@@ -34,6 +35,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-root-import": "^3.2.2",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.1",
     "eslint": "^2.8.0",
@@ -111,8 +113,10 @@
     "multer": "^1.1.0",
     "node-fetch": "1.5.1",
     "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.1",
@@ -123,6 +127,7 @@
     "redux-devtools": "^3.1.1",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
-    "whatwg-fetch": "1.0.0"
+    "whatwg-fetch": "1.0.0",
+    "winston": "^2.2.0"
   }
 }
