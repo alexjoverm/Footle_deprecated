@@ -5,5 +5,5 @@
       "server",
       "webpack"
     ],
-    "exec": "npm run build:dev && npm run babel-node -- server/index.js --plugins babel-root-import"
+    "exec": "npm run build:dev && npm run debug:dev"
 }
