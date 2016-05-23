@@ -1,7 +1,7 @@
 import jwt         from 'jsonwebtoken';
 import expressJwt  from 'express-jwt';
 import compose     from 'composable-middleware';
-import User        from '~/server/modules/auth/user/user.model';
+import User        from '~/server/api/users/user.model';
 import config      from '~/server/config/users';
 
 console.log(process.env.SESSION_SECRET);

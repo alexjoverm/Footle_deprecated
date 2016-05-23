@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-
-
 export default () => {
   // Use native promises
   mongoose.Promise = global.Promise;

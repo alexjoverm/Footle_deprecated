@@ -1,5 +1,5 @@
 import express from 'express';
-import User from './user/user.model';
+import User from '~/server/api/users/user.model';
 
 // Passport Configuration
 require('./strategies/local/passport').setup(User);
@@ -12,7 +12,7 @@ const router = express.Router();
 /**
  * @route /auth
  */
-router.use('/local', require('./strategies/local').default);
+router.use('/', require('./strategies/local').default);
 // router.use('/facebook', require('./strategies/facebook').default);
 // router.use('/twitter', require('./strategies/twitter').default);
 // router.use('/google', require('./strategies/google').default);

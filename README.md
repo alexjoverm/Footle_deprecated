@@ -8,7 +8,7 @@ Footle is the app that let's you organize the best way. Set your appointments wi
 
 ### Installation
 
-* In your terminal
+In your terminal
 ```
 git clone https://github.com/alexjoverm/Footle.git
 cd Footle
@@ -19,15 +19,15 @@ npm install
 
 In your terminal (linux or osx):
 
-1. Open `mongodb` in one terminal tab, by running:
+ 1. Open `mongodb` in one terminal tab, by running:
 ```
 mongod
 ```
-2. In another tab:
+ 2. In another tab:
 ```
 npm run debug:start
 ```
-3. Finally, in another tab, run the app in debugging mode:
+ 3. Finally, in another tab, run the app in debugging mode:
 ```
 npm run dev
 ```

@@ -10,7 +10,7 @@ const app = express();
 
 
 /** Setup database */
- // databaseConfig();
+databaseConfig();
 
 
 /** Setup Webpack */
