@@ -1,8 +1,7 @@
 # Footle
 
-[![Backlog](https://badge.waffle.io/alexjoverm/Footle.svg?label=backlog&title=Backlog)](http://waffle.io/alexjoverm/Footle)
 [![Stories in Ready](https://badge.waffle.io/alexjoverm/Footle.svg?label=ready&title=Ready)](http://waffle.io/alexjoverm/Footle)
-[![Stories Done](https://badge.waffle.io/alexjoverm/Footle.svg?label=done&title=Done)](http://waffle.io/alexjoverm/Footle)
+[![Stories Done](https://badge.waffle.io/alexjoverm/Footle.svg?label=closed&title=Done)](http://waffle.io/alexjoverm/Footle)
 
 Footle is the app that let's you organize the best way. Set your appointments with your resources, doctors by instance, and enjoy the power of the insights that the Footle statistics will give you!
 
