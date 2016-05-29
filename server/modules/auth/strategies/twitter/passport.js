@@ -1,7 +1,7 @@
-import passport from 'passport';
-import { Strategy as TwitterStrategy } from 'passport-twitter';
+const passport = require('passport');
+const TwitterStrategy = require('passport-twitter');
 
-export function setup(User) {
+exports.setup = User => {
   passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_ID,
     consumerSecret: process.env.TWITTER_SECRET,

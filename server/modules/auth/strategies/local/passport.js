@@ -1,5 +1,5 @@
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
+const passport      = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 function localAuthenticate(User, email, password, done) {
   User.findOne({
@@ -24,10 +24,10 @@ function localAuthenticate(User, email, password, done) {
     .catch(err => done(err));
 }
 
-export function setup(User) {
+exports.setup = User => {
   passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
   }, (email, password, done) => localAuthenticate(User, email, password, done)
   ));
-}
+};

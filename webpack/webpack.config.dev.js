@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const assetsPath = path.join(__dirname, '..', 'public', 'assets');
-const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
+var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
 
 const commonLoaders = [
   {

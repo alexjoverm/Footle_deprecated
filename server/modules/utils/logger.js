@@ -1,8 +1,9 @@
-import { Logger as WinstonLogger, transports } from 'winston';
-import appRoot from 'app-root-path';
-import path from 'path';
+const WinstonLogger = require('winston').Logger;
+const transports    = require('winston').transports;
+const appRoot       = require('app-root-path');
+const path          = require('path');
 
-export default class Logger {
+module.exports = class Logger {
   /**
    * Instantiates the logger both in console and in file
    */

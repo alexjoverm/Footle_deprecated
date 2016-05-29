@@ -1,6 +1,6 @@
-import express from 'express';
-import passport from 'passport';
-import { signToken } from '../../middleware/auth.middleware';
+const express   = require('express');
+const passport  = require('passport');
+const signToken = require('../../middleware').signToken;
 
 const router = express.Router();
 
@@ -23,4 +23,4 @@ router.post('/', (req, res, next) => {
   })(req, res, next);
 });
 
-export default router;
+module.exports = router;

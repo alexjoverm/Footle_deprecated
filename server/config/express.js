@@ -1,19 +1,19 @@
-import express        from 'express';
-import mongoose       from 'mongoose';
-import morgan         from 'morgan';
-import errorHandler   from 'errorhandler';
-import passport       from 'passport';
-import session        from 'express-session';
-import bodyParser     from 'body-parser';
-import path           from 'path';
-import flash          from 'express-flash';
-import methodOverride from 'method-override';
-import connectMongo   from 'connect-mongo';
-import compression    from 'compression';
-import cookieParser   from 'cookie-parser';
-import appRootPath    from 'app-root-path';
+const express        = require('express');
+const mongoose       = require('mongoose');
+const morgan         = require('morgan');
+const errorHandler   = require('errorhandler');
+const passport       = require('passport');
+const session        = require('express-session');
+const bodyParser     = require('body-parser');
+const path           = require('path');
+const flash          = require('express-flash');
+const methodOverride = require('method-override');
+const connectMongo   = require('connect-mongo');
+const compression    = require('compression');
+const cookieParser   = require('cookie-parser');
+const appRoot    = require('app-root-path');
 
-export default (app) => {
+module.exports = (app) => {
   app.set('port', process.env.PORT);
 
   // X-Powered-By header has no functional value.
@@ -52,7 +52,7 @@ export default (app) => {
   app.use(session(sess));
   app.use(flash());
 
-  app.use(express.static(path.join(appRootPath.path, 'public')));
+  app.use(express.static(path.join(appRoot.path, 'public')));
 
   console.log('--------------------------');
   console.log('===> 😊  Starting Server . . .');
@@ -63,7 +63,7 @@ export default (app) => {
     console.log('===> 🚦  Note: In order for authentication to work in production');
     console.log('===>           you will need a secure HTTPS connection');
     sess.cookie.secure = true; // Serve secure cookies
-    // app.use(favicon(path.join(appRootPath, 'public', 'favicon.ico')));
+    // app.use(favicon(path.join(appRoot, 'public', 'favicon.ico')));
     app.use(morgan('dev'));
   } else {
     app.use(morgan('dev'));

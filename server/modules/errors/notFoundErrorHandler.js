@@ -1,6 +1,6 @@
-import appRoot from 'app-root-path';
+const appRoot = require('app-root-path');
 
-export default class NotFoundErrorHandler {
+module.exports = class NotFoundErrorHandler {
 
   static handle(req, res) {
     // When in route is .all('/*') and in browser: http://localhost:3000/bjllhihb/pop?d=wws

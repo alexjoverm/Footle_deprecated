@@ -1,9 +1,0 @@
-{
-    "verbose": false,
-    "watch": [
-      "app",
-      "server",
-      "webpack"
-    ],
-    "exec": "npm run build:dev && npm run debug:dev"
-}

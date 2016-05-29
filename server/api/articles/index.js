@@ -1,10 +1,10 @@
-import express     from 'express';
-import appRoot from 'app-root-path';
+const express =  require('express');
+const appRoot =  require('app-root-path');
 
 const router = express.Router();
 
 // Add API routes here
 // Prefix: /api/articles
-router.get('/', (req, res) => res.render(`${appRoot}/server/views/public/index`));
+router.get('/', (req, res) => res.render(`${appRoot.path}/server/views/public/index`));
 
-export default router;
+module.exports = router;

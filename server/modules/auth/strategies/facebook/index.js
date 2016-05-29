@@ -1,6 +1,6 @@
-import express from 'express';
-import passport from 'passport';
-import { setTokenCookie } from '../../middleware/auth.middleware';
+const express        = require('express');
+const passport       = require('passport');
+const setTokenCookie = require('../../middleware').setTokenCookie;
 
 const router = express.Router();
 
@@ -19,4 +19,4 @@ router
     session: false
   }), setTokenCookie);
 
-export default router;
+module.exports = router;

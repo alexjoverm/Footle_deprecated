@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     // Start these browsers, currently available:
     // - Chrome

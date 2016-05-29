@@ -1,17 +1,15 @@
-import express          from 'express';
-import webpack          from 'webpack';
-import {}               from 'dotenv/config';
-import databaseConfig   from './config/database';
-import expressConfig    from './config/express';
-import routesConfig     from './routes';
-import webpackDevConfig from '../webpack/webpack.config.dev';
+require('dotenv').config();
+const express          = require('express');
+const webpack          = require('webpack');
+const databaseConfig   = require('./config/database');
+const expressConfig    = require('./config/express');
+const routesConfig     = require('./routes');
+const webpackDevConfig = require('../webpack/webpack.config.dev');
 
 const app = express();
 
-
 /** Setup database */
 databaseConfig();
-
 
 /** Setup Webpack */
 if (process.env.NODE_ENV === 'development') {
