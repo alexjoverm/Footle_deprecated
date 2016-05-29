@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+const mongoose  = require('mongoose');
 
+module.exports = () => {
+  require('dotenv').config();
 
-
-export default () => {
   // Use native promises
   mongoose.Promise = global.Promise;
 

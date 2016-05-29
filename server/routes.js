@@ -1,13 +1,14 @@
 /**
  * Routes for express app
  */
-import api  from './api';
-import auth from './modules/auth';
-import NotFoundErrorHandler from './modules/errors/NotFoundErrorHandler';
+const api  = require('./api');
+const auth = require('./modules/auth');
+const NotFoundErrorHandler = require('./modules/errors/NotFoundErrorHandler');
 
-export default (app) => {
+module.exports = (app) => {
   app.use('/api',  api);
-  // app.use('/auth', auth);
+  app.use('/auth', auth);
+
 
   // No existing routes
   app.all('/404', NotFoundErrorHandler.handle);
