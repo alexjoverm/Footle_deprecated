@@ -1,3 +1,10 @@
+/**
+ * Conf for mocha running on server nodejs. For a browser conf:
+ *  - Use window instead of global
+ *  - Use karma-chai and so on instead of require(chai) or chai.use
+ *  - Karma runs ONLY in browser
+ */
+
 // Register the Babel require hook
 //require('babel-core/register')
 

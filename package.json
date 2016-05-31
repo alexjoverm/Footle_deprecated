@@ -10,13 +10,17 @@
     "clean": "rimraf public",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "dev": "cross-env NODE_ENV=development nodemon --watch app --watch server --watch webpack server/index.js",
+
     "debug": "cross-env NODE_ENV=development node-inspector & cross-env NODE_ENV=development nodemon --debug --watch app --watch server --watch webpack server/index.js",
     "debug:break": "cross-env NODE_ENV=development node-inspector & cross-env NODE_ENV=development nodemon --debug-brk --watch app --watch server --watch webpack server/index.js",
+
     "build:dev": "cross-env NODE_ENV=development webpack --colors --config ./webpack/webpack.config.dev.js",
     "build:prod": "cross-env NODE_ENV=production webpack --colors --config ./webpack/webpack.config.prod.js",
     "build": "npm run clean && npm run build:prod",
-    "test": "cross-env NODE_ENV=test mocha test/**/*.spec.js --require mocha.conf.js",
-    "test-old": "cross-env NODE_ENV=test ./node_modules/karma/bin/karma start",
+
+    "test:server": "cross-env NODE_ENV=test mocha test/server/**/*.spec.js test/server/**/*.integration.js --require ./test/config/mocha.conf.js",
+    "test:browser": "cross-env NODE_ENV=test karma start ./test/config/karma.conf.js",
+    "test": "npm test:server && npm test:browser",
     "test:watch": "cross-env NODE_ENV=test npm test -- --watch --no-single-run"
   },
   "author": "Alex Jover Morales",

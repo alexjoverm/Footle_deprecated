@@ -10,7 +10,6 @@ require('./strategies/local/passport').setup(User);
 // require('./strategies/twitter/passport').setup(User);
 
 const router = express.Router();
-
 /**
  * @route /auth
  */
