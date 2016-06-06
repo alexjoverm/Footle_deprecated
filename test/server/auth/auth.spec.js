@@ -1,7 +1,7 @@
-const path = require('path');
 const appRoot = require('app-root-path').path;
 const authPath = `${appRoot}/server/modules/auth`;
-const proxyquire = require('proxyquire').noPreserveCache();
+const proxyquire = require('proxyquire');
+const expressJwt  = require('express-jwt');
 
 // Stub the API endpoints by empty sinnon stubs
 const routerStub = {
@@ -28,6 +28,8 @@ const authStub = {
 const auth = proxyquire(`${authPath}/index`, authStub);
 
 describe('Auth module: ', () => {
+
+  after(() => authStub["express-jwt"] = expressJwt);
 
   it('should return an express router instance', () => {
     expect(auth).to.equal(routerStub);
