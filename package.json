@@ -10,14 +10,11 @@
     "clean": "rimraf public",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "dev": "cross-env NODE_ENV=development nodemon --watch app --watch server --watch webpack server/index.js",
-
     "debug": "cross-env NODE_ENV=development node-inspector & cross-env NODE_ENV=development nodemon --debug --watch app --watch server --watch webpack server/index.js",
     "debug:break": "cross-env NODE_ENV=development node-inspector & cross-env NODE_ENV=development nodemon --debug-brk --watch app --watch server --watch webpack server/index.js",
-
     "build:dev": "cross-env NODE_ENV=development webpack --colors --config ./webpack/webpack.config.dev.js",
     "build:prod": "cross-env NODE_ENV=production webpack --colors --config ./webpack/webpack.config.prod.js",
     "build": "npm run clean && npm run build:prod",
-
     "test:server": "cross-env NODE_ENV=test mocha test/server/**/*.spec.js test/server/**/*.integration.js --require ./test/config/mocha.conf.js",
     "test:browser": "cross-env NODE_ENV=test karma start ./test/config/karma.conf.js",
     "test": "npm test:server && npm test:browser",
@@ -42,6 +39,7 @@
     "babel-root-import": "^3.2.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
+    "chai-connect-middleware": "^0.3.1",
     "chai-things": "^0.2.0",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.1",
@@ -70,6 +68,7 @@
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
     "node-inspector": "^0.12.8",
+    "node-mocks-http": "^1.5.2",
     "nodemon": "^1.9.1",
     "null-loader": "^0.1.1",
     "postcss-import": "^8.0.2",

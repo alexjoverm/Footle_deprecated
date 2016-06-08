@@ -9,6 +9,7 @@ const routerStub = {
   post: sinon.spy()
 };
 
+
 function aux () {}
 aux['@global'] = true;
 
