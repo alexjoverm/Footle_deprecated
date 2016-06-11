@@ -1,6 +1,7 @@
 'use strict';
 
 var proxyquire = require('proxyquire').noPreserveCache();
+const appRoot  = require('app-root-path').path;
 
 var userCtrlStub = {
   index: 'userCtrl.index',
@@ -26,7 +27,11 @@ var routerStub = {
   post: sinon.spy(),
   delete: sinon.spy()
 };
+var user = `${appRoot}/server/middleware/user`;
+function aux () {}
+aux['@global'] = true;
 
+// [appRoot + '/server/middleware/user']
 // require the index with our stubbed out modules
 var userIndex = proxyquire('./index', {
   'express': {
@@ -35,7 +40,8 @@ var userIndex = proxyquire('./index', {
     }
   },
   './user.controller': userCtrlStub,
-  '../../auth/auth.service': authServiceStub
+  [user]: authServiceStub,
+  'express-jwt': aux
 });
 
 describe('User API Router:', function() {

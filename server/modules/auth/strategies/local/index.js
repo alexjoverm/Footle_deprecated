@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * Authenticate on local database
- * @route /auth/local
+ * @route /auth/
  */
 router.post('/', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
@@ -17,10 +17,9 @@ router.post('/', (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: 'Something went wrong, please try again.' });
     }
-
     const token = signToken(user._id, user.role);
     res.json({ token });
-  })(req, res, next);
+  })/*(req, res, next)*/;
 });
 
 module.exports = router;

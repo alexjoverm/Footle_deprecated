@@ -1,19 +1,17 @@
 const jwt         = require('jsonwebtoken');
 const expressJwt  = require('express-jwt');
-
 const validateJwt = expressJwt({ secret: process.env.SESSION_SECRET });
-
 
 /**
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
 exports.isAuthenticated = (req, res, next) => {
-  // allow access_token to be passed through query parameter as well
-  if (req.query && req.query.hasOwnProperty('access_token')) {
-    req.headers.authorization = `Bearer ${req.query.access_token}`;
-  }
-  validateJwt(req, res, next);
+    // allow access_token to be passed through query parameter as well
+    if (req.query && req.query.hasOwnProperty('access_token')) {
+      req.headers.authorization = `Bearer ${req.query.access_token}`;
+    }
+    validateJwt(req, res, next);
 };
 
 /**

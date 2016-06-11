@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express          = require('express');
 const webpack          = require('webpack');
 const databaseConfig   = require('./config/database');
@@ -31,3 +32,5 @@ routesConfig(app);
 app.listen(process.env.PORT, () => {
   console.log(`The server is running at http://localhost:${process.env.PORT}/`);
 });
+
+module.exports = app;
