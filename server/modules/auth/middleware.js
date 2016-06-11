@@ -1,8 +1,5 @@
 const jwt         = require('jsonwebtoken');
 const expressJwt  = require('express-jwt');
-console.log("=========");
-console.log(process.env.SESSION_SECRET);
-console.log("=========");
 const validateJwt = expressJwt({ secret: process.env.SESSION_SECRET });
 
 /**
