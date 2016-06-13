@@ -8,7 +8,7 @@ const router = express.Router();
  * Authenticate on local database
  * @route /auth/
  */
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
   passport.authenticate('local', (err, user, info) => {
     const error = err || info;
     if (error) {
@@ -19,7 +19,7 @@ router.post('/', (req, res, next) => {
     }
     const token = signToken(user._id, user.role);
     res.json({ token });
-  })/*(req, res, next)*/;
+  })/* (req, res, next)*/;
 });
 
 module.exports = router;

@@ -1,0 +1,46 @@
+{
+    "extends": "airbnb",
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "forOf": true,
+            "jsx": true,
+            "es6": true,
+            "experimentalObjectRestSpread" : true
+        },
+    },
+    "rules": {
+        "comma-dangle": 0,
+        "react/prop-types": 0,
+        "react/jsx-indent-props" : 0,
+        "react/jsx-closing-bracket-location" : 0,
+        "no-underscore-dangle": 1,
+        "no-unused-expressions": 0,
+        "consistent-return": 1,
+        "global-require": 0,
+        "import/no-unresolved": 1,
+        "no-multi-spaces": [0, {
+            "exceptions": {
+                "VariableDeclarator": true
+            }
+        }],
+        "no-param-reassign": [2, { "props": false }]
+    },
+    "plugins": [
+        "react",
+        "import"
+      ],
+     "globals": {
+        "__DEVSERVER__": true,
+        "__DEVCLIENT__": true,
+        "expect": true,
+        "sinon": true,
+        "connect": true,
+  }
+}
