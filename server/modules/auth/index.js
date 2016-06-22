@@ -9,7 +9,7 @@ require('./strategies/local/passport').setup(User);
 // require('./strategies/google/passport').setup(User);
 // require('./strategies/twitter/passport').setup(User);
 
-const router = express.Router();
+const router = express.Router(); // eslint-disable-line
 /**
  * @route /auth
  */

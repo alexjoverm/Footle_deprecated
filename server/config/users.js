@@ -1,7 +1,6 @@
-
 module.exports = {
+  // List of user roles
+  roles: ['guest', 'user', 'admin'],
 
-  // Must be in order, from less rights to more rights
-  roles: ['user', 'admin']
-
+  authTypes: ['github', 'twitter', 'facebook', 'google']
 };

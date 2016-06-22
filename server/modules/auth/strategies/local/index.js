@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
     }
     const token = signToken(user._id, user.role);
     res.json({ token });
-  })/* (req, res, next)*/;
+  })(req, res);
 });
 
 module.exports = router;

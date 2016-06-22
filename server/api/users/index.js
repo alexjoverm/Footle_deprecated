@@ -6,10 +6,10 @@ const userMiddleware = require(`${appRoot}/server/middleware/user`);
 const router = new Router();
 
 router.get('/', userMiddleware.hasRole('admin'), controller.index);
-router.delete('/:id', userMiddleware.hasRole('admin'), controller.destroy);
 router.get('/me', userMiddleware.isAuthenticatedAttach(), controller.me);
-router.put('/:id/password', userMiddleware.isAuthenticatedAttach(), controller.changePassword);
 router.get('/:id', userMiddleware.isAuthenticatedAttach(), controller.show);
 router.post('/', controller.create);
+router.put('/:id/password', userMiddleware.isAuthenticatedAttach(), controller.changePassword);
+router.delete('/:id', userMiddleware.hasRole('admin'), controller.destroy);
 
 module.exports = router;

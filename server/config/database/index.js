@@ -7,7 +7,7 @@ module.exports = () => {
   mongoose.Promise = global.Promise;
 
   // Connect to database
-  const url = `${process.env.MONGO_HOST}footle_${process.env.NODE_ENV}`;
+  const url = `${process.env.MONGO_HOST}footle-${process.env.NODE_ENV}`;
   mongoose.connect(url, (err) => {
     if (err) {
       console.log(`===>  Error connecting to ${url}`);

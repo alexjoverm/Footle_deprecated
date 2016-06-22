@@ -1,20 +1,36 @@
-/* eslint-disable no-underscore-dangle */
-const mongoose      = require('mongoose');
-const crypto        = require('crypto');
-const appRoot       = require('app-root-path').path;
-const authProviders = require(`${appRoot}/server/modules/auth/config`).authProviders;
-const Logger        = require(`${appRoot}/server/modules/utils/logger`);
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+const appRoot   = require('app-root-path').path;
+const { authTypes } = require(`${appRoot}/server/config/users`);
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   name: String,
-  email: { type: String, lowercase: true },
-  password: String,
-  image: String,
+  email: {
+    type: String,
+    lowercase: true,
+    required() {
+      if (!authTypes.includes(this.provider)) {
+        return true;
+      }
+
+      return false;
+    }
+  },
   role: {
     type: String,
     default: 'user'
   },
-  hashedPassword: String,
+  password: {
+    type: String,
+    required() {
+      if (!authTypes.includes(this.provider)) {
+        return true;
+      }
+
+      return false;
+    }
+  },
   provider: String,
   salt: String,
   facebook: {},
@@ -23,76 +39,89 @@ const UserSchema = new mongoose.Schema({
   github: {}
 });
 
+/**
+ * Virtuals
+ */
+
 // Public profile information
 UserSchema
   .virtual('profile')
-  .get(() => ({ name: this.name, role: this.role }));
+  .get(function () {
+    return {
+      name: this.name,
+      role: this.role
+    };
+  });
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
   .virtual('token')
-  .get(() => ({ _id: this._id, role: this.role }));
-
+  .get(function () {
+    return {
+      _id: this._id,
+      role: this.role
+    };
+  });
 
 /**
  * Validations
  */
-// Validate empty name
-UserSchema
-  .path('name')
-  .validate(name => {
-    if (authProviders.includes(this.provider)) return true;
-    return name.length;
-  }, 'Name cannot be blank');
+
+const validatePresenceOf = value => value && value.length;
 
 // Validate empty email
 UserSchema
   .path('email')
-  .validate(email => {
-    if (authProviders.includes(this.provider)) return true;
+  .validate(function (email) {
+    if (authTypes.includes(this.provider)) {
+      return true;
+    }
     return email.length;
   }, 'Email cannot be blank');
 
 // Validate empty password
 UserSchema
   .path('password')
-  .validate(password => {
-    if (authProviders.includes(this.provider)) return true;
+  .validate(function (password) {
+    if (authTypes.includes(this.provider)) {
+      return true;
+    }
     return password.length;
   }, 'Password cannot be blank');
 
 // Validate email is not taken
 UserSchema
   .path('email')
-  .validate((value, respond) =>
-     this.constructor.findOne({ email: value }).exec()
-      .then((user) => {
-        // If there is no user, then the email is available
-        new Logger().log(`user.id: ${user && user.id}, this.id: ${this.id}`);
-        if (/* user && this.id === user.id || */!user) {
-          return respond(true); //
+  .validate(function (value, respond) {
+    const self = this;
+    if (authTypes.includes(this.provider)) {
+      return respond(true);
+    }
+    return this.constructor.findOne({ email: value }).exec()
+      .then(function (user) {
+        if (!user || user && self.id === user.id) {
+          return respond(true);
         }
+
         return respond(false);
       })
-      .catch((err) => {
+      .catch(function (err) {
         throw err;
-      })
-  , 'The specified email address is already in use.');
+      });
+  }, 'The specified email address is already in use.');
 
-
-const validatePresenceOf = (value) => value && value.length;
 /**
  * Pre-save hook
  */
 UserSchema
-  .pre('save', (next) => {
-    // Handle new/update passwordsf
+  .pre('save', function (next) {
+    // Handle new/update passwords
     if (!this.isModified('password')) {
       return next();
     }
 
     if (!validatePresenceOf(this.password)) {
-      if (!authProviders.includes(this.provider)) {
+      if (authTypes.includes(this.provider)) {
         return next(new Error('Invalid password'));
       }
       return next();
@@ -121,7 +150,8 @@ UserSchema.methods = {
   /**
    * Authenticate - check if the passwords are the same
    *
-   * @param {String} plainText
+   * @param {String} password
+   * @param {Function} callback
    * @return {Boolean}
    * @api public
    */
@@ -137,8 +167,9 @@ UserSchema.methods = {
 
       if (this.password === pwdGen) {
         callback(null, true);
+      } else {
+        callback(null, false);
       }
-      callback(null, false);
     });
   },
 
@@ -150,8 +181,24 @@ UserSchema.methods = {
    * @return {String}
    * @api public
    */
-  makeSalt(callback) {
-    const byteSize = 16;
+  makeSalt(...args) {
+    const defaultByteSize = 16;
+    let byteSize;
+    let callback;
+
+    if (typeof args[0] === 'function') {
+      callback = args[0];
+      byteSize = defaultByteSize;
+    } else if (typeof args[1] === 'function') {
+      callback = args[1];
+    } else {
+      throw new Error(`Params not correct.
+        You must provide a byteSize:Number and a callback:Function`);
+    }
+
+    if (!byteSize) {
+      byteSize = defaultByteSize;
+    }
 
     if (!callback) {
       return crypto.randomBytes(byteSize).toString('base64');
