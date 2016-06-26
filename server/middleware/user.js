@@ -18,9 +18,10 @@ exports.attachUser = (req, res, next) => {
     if (!user) {
       return res.status(401).end();
     }
-    req.user = user;
+    req.user = user; // eslint-disable-line no-param-reassign
     next();
-  }).catch(err => next(err));
+  })
+  .catch(err => next(err));
 };
 
 /**

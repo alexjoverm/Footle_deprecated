@@ -13,18 +13,17 @@ function handleError(res, statusCode = 500) {
  * Get list of users
  * restriction: 'admin'
  */
-exports.index = (req, res) => {
-  return User.find({}, '-salt -password').exec()
+exports.index = (req, res) =>
+   User.find({}, '-salt -password').exec()
     .then(users => {
       res.status(200).json(users);
     })
     .catch(handleError(res));
-};
 
 /**
  * Creates a new user
  */
-exports.create = (req, res) => {
+exports.create = function (req, res) {
   const newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
@@ -59,13 +58,12 @@ exports.show = (req, res, next) => {
  * Deletes a user
  * restriction: 'admin'
  */
-exports.destroy = (req, res) => {
-  return User.findByIdAndRemove(req.params.id).exec()
+exports.destroy = (req, res) =>
+  User.findByIdAndRemove(req.params.id).exec()
     .then(() => {
       res.status(204).end();
     })
     .catch(handleError(res));
-};
 
 /**
  * Change a users password

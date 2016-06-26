@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const assetsPath = path.join(__dirname, '..', 'public', 'assets');
-var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
+const hotMiddlewareScript =
+ 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
 
 const commonLoaders = [
   {
@@ -30,8 +31,8 @@ const commonLoaders = [
   { test: /\.html$/, loader: 'html-loader' }
 ];
 
-const postCSSConfig = function () {
-  return [
+const postCSSConfig = () =>
+  [
     require('postcss-import')({
       path: path.join(__dirname, '..', 'app', 'css'),
       // addDependencyTo is used for hot-reloading in webpack
@@ -50,7 +51,6 @@ const postCSSConfig = function () {
       clearMessages: true
     })
   ];
-};
 
 module.exports = {
     // eval - Each module is executed with eval and //@ sourceURL.
