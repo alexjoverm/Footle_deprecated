@@ -1,18 +1,19 @@
-import mongoose from 'mongoose';
+const mongoose  = require('mongoose');
 
+module.exports = () => {
+  require('dotenv').config();
 
-
-export default () => {
   // Use native promises
   mongoose.Promise = global.Promise;
 
   // Connect to database
-  mongoose.connect(process.env.MONGO_HOST, (err) => {
+  const url = `${process.env.MONGO_HOST}footle-${process.env.NODE_ENV}`;
+  mongoose.connect(url, (err) => {
     if (err) {
-      console.log(`===>  Error connecting to ${process.env.MONGO_HOST}`);
+      console.log(`===>  Error connecting to ${url}`);
       console.log(`Reason: ${err}`);
     } else {
-      console.log(`===>  Succeeded in connecting to ${process.env.MONGO_HOST}`);
+      console.log(`===>  Succeeded in connecting to ${url}`);
     }
   });
 };

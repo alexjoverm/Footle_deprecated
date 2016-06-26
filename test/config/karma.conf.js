@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     // Start these browsers, currently available:
     // - Chrome
@@ -13,25 +13,28 @@ module.exports = function(config) {
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
     browsers: ['jsdom'],
 
-    frameworks: ['mocha', 'sinon'],
+    frameworks: ['mocha', 'chai', 'sinon-chai', 'chai-as-promised', 'chai-things'],
 
-    // Point karma at the tests.webpack.js
+    // Point karma at testing files
     files: [
-      'tests.webpack.js'
+      //'test/client/entry_point.js',
+      'test/**/*.spec.js',
+
     ],
 
     // Run karma through preprocessor plugins
     preprocessors: {
-      'tests.webpack.js': [ 'webpack', 'sourcemap' ]
+      'test/client/entry_point.js': [ 'webpack', 'sourcemap' ]
     },
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: true,
+    colors: true,
 
     // How long will Karma wait for a message from a browser before disconnecting
     // from it (in ms).
-    browserNoActivityTimeout: 30000,
+    browserNoActivityTimeout: 10000,
 
     webpack: {
       devtool: 'inline-source-map',
@@ -79,19 +82,16 @@ module.exports = function(config) {
       noInfo: true // Do not spam the console when running in karma
     },
 
-    plugins: [
-      'karma-jsdom-launcher',
-      'karma-mocha',
-      'karma-sinon',
-      'karma-mocha-reporter',
-      'karma-sourcemap-loader',
-      'karma-webpack',
-    ],
-
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage',
     // 'mocha' (added in plugins)
     reporters: ['mocha'],
+
+    // client: {
+      mocha: {
+        require: 'mocha.conf.js'
+      },
+    // },
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG

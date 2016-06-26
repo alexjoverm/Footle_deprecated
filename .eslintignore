@@ -1,3 +1,2 @@
-/compiled/**
-/public/**
+public/**
 karma.conf.js

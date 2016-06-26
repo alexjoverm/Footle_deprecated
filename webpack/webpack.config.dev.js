@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const assetsPath = path.join(__dirname, '..', 'public', 'assets');
-const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
+const hotMiddlewareScript =
+ 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
 
 const commonLoaders = [
   {
@@ -9,12 +10,12 @@ const commonLoaders = [
      * TC39 categorises proposals for babel in 4 stages
      * Read more http://babeljs.io/docs/usage/experimental/
      */
-    test: /\.js$|\.jsx$/,
+    test: /\.js$/,
     loader: 'babel-loader',
     // Reason why we put this here instead of babelrc
     // https://github.com/gaearon/react-transform-hmr/issues/5#issuecomment-142313637
     query: {
-      'presets': ['react-hmre', 'es2015', 'react', 'stage-0']
+      presets: ['react-hmre', 'es2015', 'react', 'stage-0']
     },
     include: path.join(__dirname, '..', 'app'),
     exclude: path.join(__dirname, '..', 'node_modules')
@@ -30,8 +31,8 @@ const commonLoaders = [
   { test: /\.html$/, loader: 'html-loader' }
 ];
 
-const postCSSConfig = function () {
-  return [
+const postCSSConfig = () =>
+  [
     require('postcss-import')({
       path: path.join(__dirname, '..', 'app', 'css'),
       // addDependencyTo is used for hot-reloading in webpack
@@ -50,7 +51,6 @@ const postCSSConfig = function () {
       clearMessages: true
     })
   ];
-};
 
 module.exports = {
     // eval - Each module is executed with eval and //@ sourceURL.
@@ -99,8 +99,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.css'],
+    root: [
+      path.join(__dirname, '..', 'app')
+    ],
     modulesDirectories: [
-      'app', 'node_modules', 'server'
+      'node_modules'
     ]
   },
   plugins: [

@@ -1,20 +1,25 @@
-'use strict';
+const express   = require('express');
+const passport  = require('passport');
+const signToken = require('../../middleware').signToken;
 
-var express = require('express');
-var passport = require('passport');
-var auth = require('../auth.service');
+const router = express.Router();
 
-var router = express.Router();
-
-router.post('/', function(req, res, next) {
-  passport.authenticate('local', function (err, user, info) {
-    var error = err || info;
-    if (error) return res.json(401, error);
-    if (!user) return res.json(404, {message: 'Something went wrong, please try again.'});
-
-    var token = auth.signToken(user._id, user.role);
-    res.json({token: token});
-  })(req, res, next)
+/**
+ * Authenticate on local database
+ * @route /auth/
+ */
+router.post('/', (req, res) => {
+  passport.authenticate('local', (err, user, info) => {
+    const error = err || info;
+    if (error) {
+      return res.status(401).json(error);
+    }
+    if (!user) {
+      return res.status(404).json({ message: 'Something went wrong, please try again.' });
+    }
+    const token = signToken(user._id, user.role);
+    res.json({ token });
+  })(req, res);
 });
 
 module.exports = router;
